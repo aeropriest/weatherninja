@@ -10,7 +10,7 @@ const updateUI = (data) => {
 
     //destructure props
     const {cityDetails, weather} = data
-
+    console.log('update the ui')
     details.innerHTML = `
     <h5 class="my-3">${cityDetails.EnglishName}</h5>
         <div class="my-3">${weather.WeatherText}</div>
@@ -34,7 +34,8 @@ const updateUI = (data) => {
 }
 
 const updateCity = async (city) => {
-    console.log(city)
+
+    console.log('update the city', city)
     const cityDetails = await getCity(city)
     const weather = await getWeather(cityDetails.Key)
 
@@ -51,4 +52,16 @@ cityForm.addEventListener('submit', e => {
     .then(data => updateUI(data))
     .catch(error => console.log(error.message))
 
+    localStorage.setItem('city', city)
+
 })
+
+const city = localStorage.getItem('city')
+
+if( city ){
+    console.log('sorage city is ', city)
+    updateCity(city)
+    .then(data => updateUI(data))
+    .catch(error => console.log(error.message))
+
+}
